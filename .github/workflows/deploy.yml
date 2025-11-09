@@ -25,6 +25,26 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+      - name: Debug Pages API
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Actor: $GITHUB_ACTOR"
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "--- GET /pages ---"
+          HTTP_STATUS=$(curl -s -o response.json -w "%{http_code}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/pages)
+          echo "HTTP status: $HTTP_STATUS"
+          if [ -s response.json ]; then
+            echo "Response body:" && cat response.json
+          else
+            echo "No response body"
+          fi
+          echo "--- GET /repo (verify access) ---"
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY | sed -n '1,120p'
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
