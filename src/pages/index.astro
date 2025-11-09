@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Welcome from '../components/Welcome';
+---
+
+<Layout title="Welcome to Blog">
+  <main>
+    <Welcome client:load />
+  </main>
+</Layout>
