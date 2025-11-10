@@ -39,7 +39,7 @@ const { Content } = await post.render();
             {post.data.tags.map(tag => (
               <a
                 href={`/blog/tags/${tag}`}
-                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-white/25"
+                class="inline-flex items-center gap-1 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-white/25"
               >
                 #{tag}
               </a>
@@ -54,12 +54,12 @@ const { Content } = await post.render();
 
     <div class="relative -mt-12">
       <div class="max-w-3xl mx-auto px-6 pb-24">
-        <div class="rounded-3xl bg-white shadow-2xl shadow-sky-500/10 border border-white overflow-hidden">
+        <div class="bg-white shadow-2xl shadow-sky-500/10 border border-white overflow-hidden">
           <div class="px-6 py-6 border-b border-slate-100 flex flex-wrap gap-2 sm:hidden">
             {post.data.tags.map(tag => (
               <a
                 href={`/blog/tags/${tag}`}
-                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-600"
+                class="inline-flex items-center gap-1 bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-600"
               >
                 #{tag}
               </a>
