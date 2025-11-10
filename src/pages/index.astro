@@ -2,64 +2,226 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-// Get all blog posts and sort by date (newest first)
 const allPosts = await getCollection('blog');
 const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-// Get all unique tags
+const [featuredPost, ...remainingPosts] = sortedPosts;
+const secondaryPosts = remainingPosts.slice(0, 4);
+const otherPosts = remainingPosts.slice(4);
 const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))].sort();
 ---
 
 <Layout title="Marco Pegoraro">
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Header -->
-    <header class="mb-12">
-      <h1 class="text-4xl font-bold mb-2">Marco Pegoraro</h1>
-      <p class="text-gray-600">When it comes to write code you don't need to learn magic spells. Just take a look outside the window and solve your problems with patterns from the real world.</p>
-    </header>
+  <section class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-sky-500 to-sky-600 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-[1.25fr,1fr] gap-12 items-center">
+      <div>
+        <p class="uppercase tracking-[0.35em] text-white/70 text-sm mb-6">Creative Technologist</p>
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+          Marco Pegoraro
+        </h1>
+        <p class="text-lg md:text-xl text-white/85 max-w-2xl mb-8">
+          When it comes to write code you don't need to learn magic spells. Just take a look outside the window and
+          solve your problems with patterns from the real world.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="#communication"
+            class="inline-flex items-center gap-2 rounded-full bg-white text-sky-600 px-6 py-3 font-semibold shadow-lg shadow-sky-900/20 hover:bg-slate-100 transition"
+          >
+            Explore the Blog
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a
+            href="mailto:hello@marcopeg.com"
+            class="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 font-semibold text-white/90 border border-white/20 backdrop-blur hover:bg-white/20 transition"
+          >
+            Collaborate
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+              <path d="M4 4h16v16H4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M4 9h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="absolute inset-0 blur-3xl bg-sky-300/50 rotate-6 rounded-full"></div>
+        <div class="relative rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl p-8 shadow-2xl">
+          <div class="flex items-center justify-between mb-8">
+            <span class="text-sm uppercase tracking-[0.3em] text-white/70">Pulse</span>
+            <span class="text-sm text-white/70">{allPosts.length} articles</span>
+          </div>
+          <p class="text-2xl font-semibold leading-relaxed text-white/90">
+            Code assistants forget stuff. Here’s how to teach it roots. Boost Copilot, Cursor, and more with a structured
+            memory bank.
+          </p>
+          <div class="mt-8 flex items-center gap-4">
+            <div class="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center text-lg font-bold">MP</div>
+            <div>
+              <p class="font-semibold text-white">Marco Pegoraro</p>
+              <p class="text-sm text-white/70">Developer Advocate &amp; Builder</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- All Posts -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">All Posts</h2>
-      <div class="space-y-6">
-        {sortedPosts.map(post => (
-          <article class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-            <a href={`/blog/posts/${post.slug}`} class="block">
-              <h3 class="text-2xl font-bold mb-2 text-accent-600 hover:text-accent-700">{post.data.title}</h3>
-              <div class="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                <span>By {post.data.author}</span>
+  <div class="relative">
+    <div class="max-w-6xl mx-auto px-6">
+      {featuredPost && (
+        <section class="-mt-16 md:-mt-24 relative z-10">
+          <a
+            href={`/blog/posts/${featuredPost.slug}`}
+            class="group grid md:grid-cols-[1.2fr,0.8fr] gap-10 bg-white rounded-3xl shadow-2xl shadow-sky-500/10 border border-white/60 overflow-hidden"
+          >
+            <div class="p-10 flex flex-col justify-between">
+              <div>
+                <span class="inline-flex items-center gap-2 rounded-full bg-sky-50 text-sky-600 font-semibold text-xs tracking-[0.25em] px-4 py-2 uppercase">Featured</span>
+                <h2 class="mt-6 text-3xl md:text-4xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
+                  {featuredPost.data.title}
+                </h2>
+                <p class="mt-4 text-lg text-slate-600">
+                  {featuredPost.data.excerpt}
+                </p>
+              </div>
+              <div class="mt-8 flex flex-wrap items-center gap-4 text-sm text-slate-500">
+                <span class="font-semibold text-slate-700">{featuredPost.data.author}</span>
                 <span>•</span>
-                <time datetime={post.data.date.toISOString()}>
-                  {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                <time datetime={featuredPost.data.date.toISOString()}>
+                  {featuredPost.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </time>
               </div>
-              <p class="text-gray-700 mb-4">{post.data.excerpt}</p>
-              <div class="flex flex-wrap gap-2">
-                {post.data.tags.map(tag => (
-                  <span class="inline-block bg-accent-100 text-accent-800 text-sm px-3 py-1 rounded-full">
-                    {tag}
-                  </span>
-                ))}
+            </div>
+            <div class="bg-gradient-to-br from-sky-200 via-sky-300 to-sky-500 h-full min-h-[260px] md:min-h-0 relative">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.55),transparent_55%),radial-gradient(circle_at_70%_60%,rgba(15,127,224,0.25),transparent_60%)]"></div>
+              <div class="absolute bottom-6 left-6 right-6 rounded-2xl bg-white/75 backdrop-blur p-6 shadow-lg">
+                <p class="text-slate-700 font-semibold text-sm uppercase tracking-[0.2em]">Tags</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {featuredPost.data.tags.map(tag => (
+                    <span class="inline-flex items-center rounded-full bg-sky-100 text-sky-700 text-sm font-medium px-3 py-1">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </a>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <!-- Tags Section -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-4">Browse by Tag</h2>
-      <div class="flex flex-wrap gap-3">
-        {allTags.map(tag => (
-          <a 
-            href={`/blog/tags/${tag}`}
-            class="inline-block bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg transition-colors"
-          >
-            {tag}
+            </div>
           </a>
-        ))}
-      </div>
-    </section>
+        </section>
+      )}
+
+      {secondaryPosts.length > 0 && (
+        <section id="communication" class="mt-16">
+          <div class="flex items-center justify-between mb-8">
+            <div>
+              <h2 class="text-2xl md:text-3xl font-semibold text-slate-900">Latest from the Lab</h2>
+              <p class="text-slate-500">Experiments in communication, tutorials, and everyday engineering.</p>
+            </div>
+            <a href="#tags" class="hidden md:inline-flex items-center gap-2 text-sky-600 font-semibold hover:text-sky-700">
+              Browse tags
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+                <path d="M5 12h14M13 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+          <div class="grid gap-8 md:grid-cols-2">
+            {secondaryPosts.map(post => (
+              <article class="group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white p-8 shadow-lg shadow-slate-900/5 transition transform hover:-translate-y-1">
+                <a href={`/blog/posts/${post.slug}`} class="absolute inset-0" aria-label={post.data.title}></a>
+                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">
+                  <span>{post.data.tags[0]}</span>
+                  <time datetime={post.data.date.toISOString()}>
+                    {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </time>
+                </div>
+                <h3 class="mt-6 text-2xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="mt-4 text-slate-600">
+                  {post.data.excerpt}
+                </p>
+                <div class="mt-6 flex flex-wrap gap-2">
+                  {post.data.tags.map(tag => (
+                    <span class="inline-flex items-center rounded-full bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {otherPosts.length > 0 && (
+        <section id="tutorials" class="mt-16">
+          <h2 class="text-2xl md:text-3xl font-semibold text-slate-900 mb-6">More stories</h2>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {otherPosts.map(post => (
+              <article class="group flex flex-col rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm shadow-slate-900/5 transition hover:-translate-y-1">
+                <h3 class="text-xl font-semibold text-slate-900 group-hover:text-sky-600 transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="mt-3 text-sm text-slate-600 flex-1">
+                  {post.data.excerpt}
+                </p>
+                <div class="mt-4 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
+                  <span>{post.data.author}</span>
+                  <span>•</span>
+                  <time datetime={post.data.date.toISOString()}>
+                    {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </time>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section id="tips" class="mt-20">
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="rounded-3xl bg-white border border-slate-200/70 p-8 shadow-lg shadow-slate-900/5">
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">About Me</p>
+            <h3 class="mt-4 text-xl font-semibold text-slate-900">Pragmatic patterns</h3>
+            <p class="mt-3 text-slate-600">
+              I ship playful experiments that make teams faster. Expect tools, workflows, and reflections from the field.
+            </p>
+          </div>
+          <div class="rounded-3xl bg-white border border-slate-200/70 p-8 shadow-lg shadow-slate-900/5">
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Communication</p>
+            <h3 class="mt-4 text-xl font-semibold text-slate-900">Shape ideas with clarity</h3>
+            <p class="mt-3 text-slate-600">
+              Notes on writing with purpose, facilitating discussions, and building trust with thoughtful documentation.
+            </p>
+          </div>
+          <div class="rounded-3xl bg-white border border-slate-200/70 p-8 shadow-lg shadow-slate-900/5">
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Tips &amp; Tricks</p>
+            <h3 class="mt-4 text-xl font-semibold text-slate-900">Tooling shortcuts</h3>
+            <p class="mt-3 text-slate-600">
+              Fast-growing snippets to automate your workflow and squeeze more value out of AI, CLIs, and editors.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="tags" class="mt-20 mb-24">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-semibold text-slate-900">Browse by tag</h2>
+            <p class="text-slate-500">Find deep dives across your favourite topics.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          {allTags.map(tag => (
+            <a
+              href={`/blog/tags/${tag}`}
+              class="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:-translate-y-0.5 hover:text-sky-600 hover:border-sky-200 transition"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>

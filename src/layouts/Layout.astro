@@ -15,10 +15,105 @@ const { title } = Astro.props;
     <meta name="description" content="Personal blog built with Astro" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="bg-gray-50 text-gray-900">
-    <slot />
+  <body class="bg-[#f5f6fb] text-slate-900 antialiased">
+    <div class="min-h-screen flex flex-col">
+      <header class="relative z-20 bg-gradient-to-r from-sky-500 via-sky-500 to-sky-600 text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-6">
+          <div class="flex items-center justify-between h-16 md:h-20">
+            <a href="/blog" class="text-lg font-semibold tracking-wide uppercase">Marco Pegoraro</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-white/80">
+              <a href="/blog#about" class="hover:text-white transition-colors">About Me</a>
+              <a href="/blog#communication" class="hover:text-white transition-colors">Communication</a>
+              <a href="/blog#tutorials" class="hover:text-white transition-colors">Tutorials</a>
+              <a href="/blog#tips" class="hover:text-white transition-colors">Tips &amp; Tricks</a>
+            </nav>
+            <div class="hidden md:flex items-center gap-4">
+              <a href="/blog/search" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+                  <circle cx="11" cy="11" r="7" stroke-width="2"></circle>
+                  <path d="m20 20-3.5-3.5" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+              </a>
+              <a
+                href="mailto:hello@marcopeg.com"
+                class="px-4 py-2 rounded-full bg-white text-sky-600 font-semibold shadow-sm hover:bg-slate-100 transition-colors"
+              >
+                Say Hi
+              </a>
+            </div>
+            <button
+              type="button"
+              class="md:hidden p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+              data-mobile-toggle
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+                <path d="M4 7h16M4 12h16M4 17h16" stroke-width="2" stroke-linecap="round"></path>
+              </svg>
+            </button>
+          </div>
+          <div id="mobile-menu" class="md:hidden hidden pb-6 space-y-6">
+            <nav class="flex flex-col gap-4 text-base font-medium text-white/90">
+              <a href="/blog#about" class="hover:text-white transition-colors">About Me</a>
+              <a href="/blog#communication" class="hover:text-white transition-colors">Communication</a>
+              <a href="/blog#tutorials" class="hover:text-white transition-colors">Tutorials</a>
+              <a href="/blog#tips" class="hover:text-white transition-colors">Tips &amp; Tricks</a>
+            </nav>
+            <div class="flex items-center gap-4">
+              <a href="/blog/search" class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
+                  <circle cx="11" cy="11" r="7" stroke-width="2"></circle>
+                  <path d="m20 20-3.5-3.5" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                Search
+              </a>
+              <a
+                href="mailto:hello@marcopeg.com"
+                class="px-4 py-2 rounded-full bg-white text-sky-600 font-semibold shadow-sm hover:bg-slate-100 transition-colors"
+              >
+                Say Hi
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1">
+        <slot />
+      </main>
+
+      <footer class="mt-16 bg-white/80 backdrop-blur border-t border-slate-200/70">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-600 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+          <p>&copy; {new Date().getFullYear()} Marco Pegoraro. All rights reserved.</p>
+          <div class="flex items-center gap-4">
+            <a href="https://marcopeg.com" class="hover:text-sky-600 transition-colors">Main Site</a>
+            <a href="mailto:hello@marcopeg.com" class="hover:text-sky-600 transition-colors">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const toggleButton = document.querySelector('[data-mobile-toggle]');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      if (toggleButton && mobileMenu) {
+        toggleButton.addEventListener('click', () => {
+          const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
+          toggleButton.setAttribute('aria-expanded', String(!expanded));
+          mobileMenu.classList.toggle('hidden', expanded);
+        });
+      }
+    </script>
   </body>
 </html>

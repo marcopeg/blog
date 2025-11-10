@@ -1,15 +1,84 @@
 @import "tailwindcss";
 
 @theme {
-  --color-accent-50: #fef2f2;
-  --color-accent-100: #fee2e2;
-  --color-accent-200: #fecaca;
-  --color-accent-300: #fca5a5;
-  --color-accent-400: #f87171;
-  --color-accent-500: #ef4444;
-  --color-accent-600: #dc2626;
-  --color-accent-700: #b91c1c;
-  --color-accent-800: #991b1b;
-  --color-accent-900: #7f1d1d;
-  --color-accent-950: #450a0a;
+  --color-accent-50: #ecf7ff;
+  --color-accent-100: #d9efff;
+  --color-accent-200: #b0e0ff;
+  --color-accent-300: #86d1ff;
+  --color-accent-400: #4cb8ff;
+  --color-accent-500: #1598ff;
+  --color-accent-600: #0f7fe0;
+  --color-accent-700: #0c67b8;
+  --color-accent-800: #0a4f8f;
+  --color-accent-900: #073a6a;
+  --color-accent-950: #041f36;
+}
+
+:root {
+  color-scheme: light;
+  background-color: #f5f6fb;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f6fb;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0f7fe0;
+}
+
+::selection {
+  background: rgba(21, 152, 255, 0.2);
+  color: inherit;
+}
+
+.prose {
+  color: #0f172a;
+  max-width: 100%;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-weight: 700;
+  color: #0b1437;
+}
+
+.prose a {
+  color: #0f7fe0;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose blockquote {
+  border-left: 4px solid rgba(21, 152, 255, 0.35);
+  padding-left: 1.5rem;
+  color: rgba(15, 23, 42, 0.85);
+  font-style: italic;
+}
+
+.prose pre {
+  background: #0b1437;
+  color: #f5f6fb;
+  border-radius: 18px;
+  padding: 1.25rem;
+}
+
+.prose code {
+  background: rgba(21, 152, 255, 0.08);
+  color: #0b1437;
+  padding: 0.2rem 0.45rem;
+  border-radius: 8px;
+  font-size: 0.95em;
 }

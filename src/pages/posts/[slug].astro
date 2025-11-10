@@ -16,106 +16,60 @@ const { Content } = await post.render();
 ---
 
 <Layout title={post.data.title}>
-  <article class="max-w-3xl mx-auto px-4 py-8">
-    <!-- Back Link -->
-    <a href="/blog" class="inline-block text-blue-600 hover:text-blue-800 mb-6">
-      ← Back to Home
-    </a>
-
-    <!-- Article Header -->
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
-      <div class="flex items-center gap-4 text-gray-600 mb-4">
-        <span>By {post.data.author}</span>
-        <span>•</span>
-        <time datetime={post.data.date.toISOString()}>
-          {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time>
+  <article class="relative">
+    <div class="bg-gradient-to-r from-sky-500 via-sky-500 to-sky-600 text-white">
+      <div class="max-w-4xl mx-auto px-6 pt-16 pb-20">
+        <a href="/blog" class="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-4 h-4">
+            <path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          Back to index
+        </a>
+        <h1 class="mt-6 text-4xl md:text-5xl font-extrabold leading-tight text-white">
+          {post.data.title}
+        </h1>
+        <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-white/80">
+          <span class="font-semibold text-white">{post.data.author}</span>
+          <span>•</span>
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span class="hidden sm:inline">•</span>
+          <div class="hidden sm:flex flex-wrap gap-2">
+            {post.data.tags.map(tag => (
+              <a
+                href={`/blog/tags/${tag}`}
+                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-white/25"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        </div>
+        <p class="mt-8 max-w-3xl text-lg text-white/85">
+          {post.data.excerpt}
+        </p>
       </div>
-      <div class="flex flex-wrap gap-2 mb-6">
-        {post.data.tags.map(tag => (
-          <a 
-            href={`/blog/tags/${tag}`}
-            class="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full hover:bg-blue-200 transition-colors"
-          >
-            {tag}
-          </a>
-        ))}
-      </div>
-      <p class="text-lg text-gray-700 italic border-l-4 border-blue-500 pl-4">{post.data.excerpt}</p>
-    </header>
+    </div>
 
-    <!-- Article Content -->
-    <div class="prose">
-      <Content />
+    <div class="relative -mt-12">
+      <div class="max-w-3xl mx-auto px-6 pb-24">
+        <div class="rounded-3xl bg-white shadow-2xl shadow-sky-500/10 border border-white overflow-hidden">
+          <div class="px-6 py-6 border-b border-slate-100 flex flex-wrap gap-2 sm:hidden">
+            {post.data.tags.map(tag => (
+              <a
+                href={`/blog/tags/${tag}`}
+                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-600"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+          <div class="prose prose-lg px-6 py-10 sm:px-10 sm:py-12">
+            <Content />
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 </Layout>
-
-<style is:global>
-  .prose {
-    color: #1f2937;
-    max-width: none;
-  }
-  .prose h1 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-  .prose h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-  .prose h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .prose p {
-    margin-bottom: 1rem;
-    line-height: 1.75;
-  }
-  .prose ul, .prose ol {
-    margin-bottom: 1rem;
-    margin-left: 1.5rem;
-  }
-  .prose li {
-    margin-bottom: 0.5rem;
-  }
-  .prose code {
-    background-color: #f3f4f6;
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    font-family: monospace;
-  }
-  .prose pre {
-    background-color: #111827;
-    color: #f3f4f6;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    overflow-x: auto;
-    margin-bottom: 1rem;
-  }
-  .prose pre code {
-    background-color: transparent;
-    padding: 0;
-  }
-  .prose a {
-    color: #2563eb;
-    text-decoration: underline;
-  }
-  .prose a:hover {
-    color: #1e40af;
-  }
-  .prose blockquote {
-    border-left: 4px solid #d1d5db;
-    padding-left: 1rem;
-    font-style: italic;
-    margin: 1rem 0;
-  }
-</style>
